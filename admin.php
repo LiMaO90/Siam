@@ -8,6 +8,6 @@
 <html lang="fr" dir="ltr">
   <?php include("header.php"); ?>
   <body>
-    <h1>Recherche partie</h1>
+    <h1>Admin</h1>
   </body>
 </html>

@@ -1,7 +1,4 @@
 <?php
-
-$cle = "md5";
-
 function connectBD($base){
     try {
         $bd = new PDO("sqlite:$base.db");

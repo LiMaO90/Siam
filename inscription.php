@@ -5,10 +5,11 @@ include("bdd.php");
 $value = NULL;
 
 if(isset($_POST["identifiant"]) && isset($_POST["MDP"]) && isset($_POST["verifMDP"])){
+  $bd = connectBD("Siam");
   if($_POST["MDP"] == $_POST["verifMDP"]){
     $bd = connectBD("Siam");
     if($bd != NULL){
-      $mdp = hash($cle, $_POST["MDP"]);
+      $mdp = hash("md5", $_POST["MDP"]);
       $requete = 'Insert Into Joueur(identifiant, motDePasse, isAdmin) Values("'.$_POST["identifiant"].'", "'.$mdp.'", "False")';
       modifieTable($bd, $requete);
       $value = "success";
