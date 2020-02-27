@@ -9,7 +9,7 @@ if(isset($_POST["identifiant"]) && isset($_POST["MDP"]) && isset($_POST["verifMD
     $bd = connectBD("Siam");
     if($bd != NULL){
       $mdp = hash($cle, $_POST["MDP"]);
-      $requete = 'Insert Into Joueur(identifiant, motDePasse, isAdmin) Values("'.$_POST["identifiant"].'", "'.$mdp.'", "True")';
+      $requete = 'Insert Into Joueur(identifiant, motDePasse, isAdmin) Values("'.$_POST["identifiant"].'", "'.$mdp.'", "False")';
       modifieTable($bd, $requete);
       $value = "success";
     }
