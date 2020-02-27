@@ -1,19 +1,20 @@
 <?php
 
-function connexpdo($base) {
-    $dsn="sqlite:$base.db" ;
+$cle = "md5";
+
+function connectBD($base){
     try {
-        $bd = new PDO($dsn);
+        $bd = new PDO("sqlite:$base.db");
         return $bd;
     }catch(PDOException $except){
         echo "Échec de la connexion",$except->getMessage();
-        return FALSE;
         exit();
+        return NULL;
     }
 }
 
 function modifieTable($bd, $requete){
-    return $db->exec($requete);
+    return $bd->exec($requete);
 }
 
 function selectTable($bd, $requete){
