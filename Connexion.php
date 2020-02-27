@@ -4,12 +4,10 @@ include("bdd.php");
 
 $error = NULL;
 
-function admin($id){
+function passage($id){
   $bd = connectBD("Siam");
-  $sql = 'Select isAdmin From Joueur Where idJoueur = "'.$id.'"';
-  $result = selectTable($bd, $sql);
-  if ($result->fetch(PDO::FETCH_ASSOC)["isAdmin"] == "False") header("Location: recherchePartie.php");
-  else header("Location: admin.php");
+  if(isAdmin($bd, $id)) header("Location: MenuUtilisateur.php");
+  else header("Location: MenuAdmin.php");
 }
 
 function estValide($identifiant, $mdp){
@@ -28,14 +26,14 @@ function testConnexion($identifiant, $mdp){
   $id = estValide($identifiant, $hashMdp);
   if($id != "error"){
     setcookie("id", $id, (time()+30*24*30));
-    admin($_COOKIE["id"]);
+    passage($_COOKIE["id"]);
     return NULL;
   }
   return "identifiant";
 }
 
 if(isset($_COOKIE["id"])){
-  admin($_COOKIE["id"]);
+  passage($_COOKIE["id"]);
 }
 
 if(isset($_POST["MDP"]) && isset($_POST["identifiant"])){
@@ -47,13 +45,12 @@ if(isset($_POST["MDP"]) && isset($_POST["identifiant"])){
 <html lang="fr" dir="ltr">
   <?php include("header.php"); ?>
   <body>
-    <h1>Connexion</h1>
+    <img src="ressources/logo_sia.gif" alt="Logo de Siam"><br>
     <p style="color:red"><?php if($error == "identifiant") echo "identifiant ou mot de passe incorrecte"; ?></p>
     <form action="Connexion.php" method="post">
       <label>idententifiant: </label> <input type="text" name="identifiant" value=""><br>
       <label>Mot de passe: </label> <input type="password" name="MDP" value=""><br>
       <input type="submit" value="Se connecter">
     </form>
-    <p> Vous n'avez pas de compte. Cliquez <a href="inscription.php">Ici</a>.</p>
   </body>
 </html>

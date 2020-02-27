@@ -17,4 +17,11 @@ function modifieTable($bd, $requete){
 function selectTable($bd, $requete){
     return $bd->query($requete);
 }
+
+function isAdmin($bd, $id){
+    $requete = 'Select isAdmin From Joueur Where idJoueur="'.$id.'"';
+    $result = $bd->query($requete);
+    $resultat = $result->fetch(PDO::FETCH_ASSOC);
+    return $resultat["isAdmin"] == "True";
+}
 ?>
