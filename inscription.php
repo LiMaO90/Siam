@@ -10,7 +10,7 @@ if(isset($_POST["identifiant"]) && isset($_POST["MDP"]) && isset($_POST["verifMD
     $bd = connectBD("Siam");
     if($bd != NULL){
       $mdp = hash("md5", $_POST["MDP"]);
-      $requete = 'Insert Into Joueur(identifiant, motDePasse, isAdmin) Values("'.$_POST["identifiant"].'", "'.$mdp.'", "False")';
+      $requete = 'INSERT Into Joueur(identifiant, motDePasse, isAdmin) Values("'.$_POST["identifiant"].'", "'.$mdp.'", "False")';
       modifieTable($bd, $requete);
       $value = "success";
     }
@@ -25,21 +25,21 @@ if(isset($_POST["identifiant"]) && isset($_POST["MDP"]) && isset($_POST["verifMD
   <?php include("header.php"); ?>
   <body>
     <p style="color:green;"><?php if($value == "success") echo "Le compte a été créé !!"; ?></p>
-    <h1>Inscription</h1>
+    <h1>Création d'un compte</h1>
     <center>
-    <form action="inscription.php" method="post">
+      <form action="inscription.php" method="post">
         <fieldset>
-            <legend>Inscription :</legend>
-      <label>identfiant: </label><input type="text" name="identifiant"><br>
-      <label>mot de passe: </label><input type="password" name="MDP"><br>
-      <label>confirmer: </label><input type="password" name="verifMDP"> <label style="color:red"><?php if($value=="pass") echo "Non valide !"; ?></label><br>
-      </fieldset>
-      <p>
-      <input type="submit" value="Valider">
-       <a href="javascript:history.go(-1)">Retour</a>
-         </p>
-    </form>
+          <legend>Création d'un compte</legend>
+          <label>identfiant: </label><input type="text" name="identifiant"><br>
+          <label>mot de passe: </label><input type="password" name="MDP"><br>
+          <label>confirmer: </label><input type="password" name="verifMDP"> <label style="color:red"><?php if($value=="pass") echo "Non valide !"; ?></label><br>
+        </fieldset>
+        <p>
+          <input type="submit" value="Valider">
+          <br>
+          <a href="javascript:history.go(-1)">Retour</a>
+        </p>
+      </form>
     </center>
-
   </body>
 </html>

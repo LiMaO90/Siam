@@ -15,8 +15,7 @@
         break;
 
       case 'deco':
-        setcookie("id", "", (time()+30*24*30));
-        header("Location: index.php");
+        header("Location: Deconnexion.php");
         break;
     }
   }

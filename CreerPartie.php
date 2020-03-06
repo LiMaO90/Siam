@@ -1,14 +1,27 @@
 <?php
 include("bdd.php");
 
-if(!isset($_COOKIE["id"])) header("Location: Connexion.php");
+if(!isset($_SESSION["id"])) header("Location: Connexion.php");
 
 $isAdmin = False;
 
 $bd = connectBD("Siam");
-if(isAdmin($bd, $_COOKIE["id"])){
+if(isAdmin($bd, $_SESSION["id"])){
     $isAdmin = True;
 }
+
+$value = NULL;
+
+$sql = "INSERT INTO Grille(tour, estPartie) Values (1, 0)"; // 0 false et 1 true
+if(modifieTable($bd, $sql))
+{
+    $value = "success";
+    $idGrille = idDernierePartie($bd);
+    $sql = "INSERT INTO Participe(idJoueur, idGrille, numJoueur) Values (".$_SESSION["id"].", ".$idGrille.", 1)";
+    if(modifieTable($bd, $sql)) $value = "success";
+    else $value = "error2";
+}
+else $value = "error";
 
 ?>
 
@@ -18,5 +31,10 @@ if(isAdmin($bd, $_COOKIE["id"])){
 <body>
     <?php if($isAdmin) include("MenuHtmlAdmin.php"); else include("MenuHtmlUtilisateur.php"); ?>
     <h1>Création de partie</h1>
+    <?php  
+        if($value == "success") echo "<p style=\"color:green;\">La partie a été créé !!</p>"; 
+        else if($value == "error") echo "<p style=\"color:red;\">Erreur sur la création de la partie</p>";
+        else if($value == "error2") echo "<p style=\"color:red;\">Erreur sur l'ajout du joueur dans la partie</p>"; 
+    ?>
 </body>
 </html>

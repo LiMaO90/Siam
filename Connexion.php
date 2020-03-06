@@ -4,40 +4,30 @@ include("bdd.php");
 
 $error = NULL;
 
-function passage($id){
-  $bd = connectBD("Siam");
+$bd = connectBD("Siam");
+
+function passage($bd, $id){
   if(isAdmin($bd, $id)) header("Location: MenuUtilisateur.php");
   else header("Location: MenuAdmin.php");
 }
 
-function estValide($identifiant, $mdp){
-  $bd = connectBD("Siam");
-  $sql = 'Select idJoueur From Joueur Where identifiant="'.$identifiant.'" and motDePasse="'.$mdp.'"';
-  $result = selectTable($bd, $sql);
-  if($result != NULL){
-    $row = $result->fetch(PDO::FETCH_ASSOC);
-    return $row["idJoueur"];
-  }
-  return "error";
-}
-
-function testConnexion($identifiant, $mdp){
-  $hashMdp = hash("md5", $mdp);
-  $id = estValide($identifiant, $hashMdp);
+function testConnexion($bd, $identifiant, $mdp){
+  $hashMdp = hachage($mdp);
+  $id = recupeId($bd, $identifiant, $hashMdp);
   if($id != "error"){
-    setcookie("id", $id, (time()+30*24*30));
-    passage($_COOKIE["id"]);
+    $_SESSION["id"] = $id;
+    passage($bd, $_SESSION["id"]);
     return NULL;
   }
   return "identifiant";
 }
 
-if(isset($_COOKIE["id"])){
-  passage($_COOKIE["id"]);
+if(isset($_SESSION["id"])){
+  passage($bd, $_SESSION["id"]);
 }
 
 if(isset($_POST["MDP"]) && isset($_POST["identifiant"])){
-  $error = testConnexion($_POST["identifiant"], $_POST["MDP"]);
+  $error = testConnexion($bd, $_POST["identifiant"], $_POST["MDP"]);
 }
 
 ?>
