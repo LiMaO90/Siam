@@ -1,14 +1,31 @@
-<head>
-    <meta charset="utf-8">
-    <link rel="icon" href="ressources/logo_sia.gif">
-    <style type="text/css">
-    body {
-    background-image:url(ressources/fond4.jpg);
+<center>
+<form action="toto.php" method="post" >
+<fieldset>
+ <legend>Inscription :</legend>
+  <label for="email">Votre email :</label>
+   <input type="email" name="email" size="20"
+   maxlength="40" value="email" id="email" />
+
+ <label for="email">Votre email :</label>
+   <input type="email" name="email" size="20"
+   maxlength="40" value="email" id="email" />
+</fieldset>
+
+ <p>
+ <input type="submit" value="Envoyer" />
+ <input type="reset" value="Annuler" />
+ </p>
+
+</form>
+</center>
+<style type="text/css">
+body {
  font-family:"trebuchet ms",sans-serif;
  font-size:90%;
 text-align: center;
  }
 form {
+ background-color:#FAFAFA;
  padding:10px;
  width:280px;
  }
@@ -57,20 +74,4 @@ input[type=submit], input[type=reset] {
  box-shadow:1px 1px 1px #D83F3D;
  cursor:pointer;
  }
-
- a {
-  text-decoration: underline;
-  color: #a00;
-}
-a:visited {
-  color: #844;
-}
-a:hover, a:focus, a:active {
-  text-decoration: none;
-  color: white;
-  background: #800;
-}
-    </style>
-
-    <title>Siam</title>
-</head>
+ </style>

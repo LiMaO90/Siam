@@ -47,10 +47,17 @@ if(isset($_POST["MDP"]) && isset($_POST["identifiant"])){
   <body>
     <img src="ressources/logo_sia.gif" alt="Logo de Siam"><br>
     <p style="color:red"><?php if($error == "identifiant") echo "identifiant ou mot de passe incorrecte"; ?></p>
+    <center>
     <form action="Connexion.php" method="post">
+        <fieldset>
+        <legend>Connexion :</legend>
       <label>idententifiant: </label> <input type="text" name="identifiant" value=""><br>
       <label>Mot de passe: </label> <input type="password" name="MDP" value=""><br>
+          </fieldset>
+          <p>
       <input type="submit" value="Se connecter">
+</p>
     </form>
+    </center>
   </body>
 </html>

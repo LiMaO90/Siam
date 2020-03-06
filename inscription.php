@@ -26,12 +26,20 @@ if(isset($_POST["identifiant"]) && isset($_POST["MDP"]) && isset($_POST["verifMD
   <body>
     <p style="color:green;"><?php if($value == "success") echo "Le compte a été créé !!"; ?></p>
     <h1>Inscription</h1>
+    <center>
     <form action="inscription.php" method="post">
+        <fieldset>
+            <legend>Inscription :</legend>
       <label>identfiant: </label><input type="text" name="identifiant"><br>
       <label>mot de passe: </label><input type="password" name="MDP"><br>
       <label>confirmer: </label><input type="password" name="verifMDP"> <label style="color:red"><?php if($value=="pass") echo "Non valide !"; ?></label><br>
+      </fieldset>
+      <p>
       <input type="submit" value="Valider">
+       <a href="javascript:history.go(-1)">Retour</a>
+         </p>
     </form>
-    <a href="javascript:history.go(-1)">Retour</a>
+    </center>
+
   </body>
 </html>
