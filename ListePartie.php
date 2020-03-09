@@ -20,14 +20,29 @@ if(isAdmin($bd, $_SESSION["id"])){
     <h1>Liste partie</h1>
     <div>
         <?php
-            $listPartie = listPartie($bd, $_SESSION["id"]);
-            $cpt = 0;
-            while($row = $listPartie->fetch(PDO::FETCH_ASSOC))
-            {
-                echo "<p>Partie en attente d'un joueur: <a href=\"Rejoindre.php?Grille=".$row["idGrille"]."\"  style=\"color:green;\">Rejoindre</a> </p>";
-                $cpt++;
+            if($isAdmin){
+                $listPartie = listPartie($bd);
+                $cpt = 0;
+                while($row = $listPartie->fetch(PDO::FETCH_ASSOC))
+                {
+                    if($row["estPartie"] == "0")
+                        echo "<p>Partie en attente d'un joueur: <a href=\"Rejoindre.php?grille=".$row["idGrille"]."\"  style=\"color:green;\">Rejoindre</a></p>";
+                    if($row["estPartie"] == "2")
+                        echo "<p>Partie termine: <a href=\"SupprimerPartie.php?grille=".$row["idGrille"]."\" ><img src=\"ressources/croix.png\" height=\"1%\" width=\"1%\" alt=\"croix\"> </a></p>";
+                    $cpt++;
+                }
+                if($cpt == 0) echo "<p>Il n'y a pas de partie en attente.</p>";
             }
-            if($cpt == 0) echo "<p>Il n'y a pas de partie en attente.</p>";
+            else{
+                $listPartie = listPartieId($bd, $_SESSION["id"]);
+                $cpt = 0;
+                while($row = $listPartie->fetch(PDO::FETCH_ASSOC))
+                {
+                    echo "<p>Partie en attente d'un joueur: <a href=\"Rejoindre.php?grille=".$row["idGrille"]."\"  style=\"color:green;\">Rejoindre</a> </p>";
+                    $cpt++;
+                }
+                if($cpt == 0) echo "<p>Il n'y a pas de partie en attente.</p>";
+            }
         ?>
     </div>
 </body>

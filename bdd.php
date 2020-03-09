@@ -41,9 +41,17 @@
         return false;
     }
 
-    function listPartie($bd, $id)
+    function listPartie($bd)
     {
-        $sql = "SELECT Grille.idGrille From Grille Inner Join Participe On Participe.idGrille = Grille.idGrille Where NOT Participe.idJoueur = ".$id." AND Grille.estPartie = \"0\"";
+        $sql = "SELECT idGrille, estPartie From Grille";
+        return selectTable($bd, $sql);
+    }
+
+    function listPartieId($bd, $id)
+    {
+        $sql2 = "SELECT Grille.idGrille From Grille Inner Join Participe On Participe.idGrille = Grille.idGrille Where Participe.idJoueur = ".$id;
+        $sql = "SELECT Grille.idGrille From Grille Inner Join Participe On Participe.idGrille = Grille.idGrille Where Grille.idGrille Not In (".$sql2.") AND Grille.estPartie = \"0\"";
+        debugConsole($sql);
         return selectTable($bd, $sql);
     }
 
@@ -66,6 +74,14 @@
         $result = $bd->query($sql);
         $row = $result->fetch(PDO::FETCH_ASSOC);
         return $row["idGrille"];
+    }
+
+    function nbPion($bd)
+    {
+        $sql = "SELECT Count(idPion) As nb from Pion";
+        $result = $bd->query($sql);
+        $row = $result->fetch(PDO::FETCH_ASSOC);
+        return $row["nb"];
     }
 
     function hachage($mdp)

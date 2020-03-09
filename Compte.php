@@ -20,8 +20,9 @@ if(isset($_POST["oldMDP"]) && isset($_POST["MDP"]) && isset($_POST["verifMDP"]))
             $mdp = hachage($_POST["MDP"]);
             $requete = "UPDATE Joueur SET motDePasse = \'".$mdp."\' Where idJoueur = ".$_SESSION["id"];
             debugConsole($requete);
-            if(modifieTable($bd, $requete) > 0) $value = "success";
-            else $value = "error";
+            modifieTable($bd, $requete);
+            //if(selectTable($bd, $requete) > 0) $value = "success";
+            //else $value = "error";
         }
         else $value = "pass";
     }
@@ -69,13 +70,13 @@ if(isset($_POST["oldMDP"]) && isset($_POST["MDP"]) && isset($_POST["verifMDP"]))
                         $tour = (int)$row["tour"];
                         if($tour%2 == 0)
                         {
-                            if($row["numJoueur"] == "2") echo "<p>Partie en cours: <a href=\"Partie.php?Grille=".$row["idGrille"]."\"  style=\"color:green;\">Votre tours</a> </p>";
-                            else echo "<p>Partie en cours: <a href=\"#\"  style=\"color:orange;\">En attente</a> </p>";
+                            if($row["numJoueur"] == "2") echo "<p>Partie en cours: <a href=\"Partie.php?Grille=".$row["idGrille"]."\"  style=\"color:green;\">C'est votre tour</a> </p>";
+                            else echo "<p>Partie en cours: <a href=\"#\"  style=\"color:orange;\">En attente du tour de l'adversaire</a> </p>";
                         }
                         else
                         {
-                            if($row["numJoueur"] == "1") echo "<p>Partie en cours: <a href=\"Partie.php?Grille=".$row["idGrille"]."\"  style=\"color:green;\">Votre tours</a> </p>";
-                            else echo "<p>Partie en cours: <a href=\"#\"  style=\"color:orange;\">En attente</a> </p>";
+                            if($row["numJoueur"] == "1") echo "<p>Partie en cours: <a href=\"Partie.php?Grille=".$row["idGrille"]."\"  style=\"color:green;\">C'est votre tour</a> </p>";
+                            else echo "<p>Partie en cours: <a href=\"#\"  style=\"color:orange;\">En attente du tour de l'adversaire</a> </p>";
                         }
                     }
                     else echo "<p>Partie en attente d'un joueur: <a href=\"#\"  style=\"color:orange;\">En attente</a> </p>";
