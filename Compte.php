@@ -6,9 +6,7 @@ if(!isset($_SESSION["id"])) header("Location: Connexion.php");
 $isAdmin = False;
 
 $bd = connectBD("Siam");
-if(isAdmin($bd, $_SESSION["id"])){
-    $isAdmin = True;
-}
+$isAdmin = isAdmin($bd, $_SESSION["id"]);
 
 $value = NULL;
 
@@ -21,8 +19,7 @@ if(isset($_POST["oldMDP"]) && isset($_POST["MDP"]) && isset($_POST["verifMDP"]))
             $requete = "UPDATE Joueur SET motDePasse = \'".$mdp."\' Where idJoueur = ".$_SESSION["id"];
             debugConsole($requete);
             modifieTable($bd, $requete);
-            //if(selectTable($bd, $requete) > 0) $value = "success";
-            //else $value = "error";
+            $value = "success";
         }
         else $value = "pass";
     }
@@ -70,16 +67,16 @@ if(isset($_POST["oldMDP"]) && isset($_POST["MDP"]) && isset($_POST["verifMDP"]))
                         $tour = (int)$row["tour"];
                         if($tour%2 == 0)
                         {
-                            if($row["numJoueur"] == "2") echo "<p>Partie en cours: <a href=\"Partie.php?Grille=".$row["idGrille"]."\"  style=\"color:green;\">C'est votre tour</a> </p>";
-                            else echo "<p>Partie en cours: <a href=\"#\"  style=\"color:orange;\">En attente du tour de l'adversaire</a> </p>";
+                            if($row["numJoueur"] == "2") echo "<p>N°".$row["idGrille"].": Partie en cours <a href=\"Partie.php?grille=".$row["idGrille"]."\"  style=\"color:green;\">C'est votre tour</a> </p>";
+                            else echo "<p>N°".$row["idGrille"].": Partie en cours <a href=\"#\"  style=\"color:orange;\">En attente du tour de l'adversaire</a> </p>";
                         }
                         else
                         {
-                            if($row["numJoueur"] == "1") echo "<p>Partie en cours: <a href=\"Partie.php?Grille=".$row["idGrille"]."\"  style=\"color:green;\">C'est votre tour</a> </p>";
-                            else echo "<p>Partie en cours: <a href=\"#\"  style=\"color:orange;\">En attente du tour de l'adversaire</a> </p>";
+                            if($row["numJoueur"] == "1") echo "<p>N°".$row["idGrille"].": Partie en cours <a href=\"Partie.php?grille=".$row["idGrille"]."\"  style=\"color:green;\">C'est votre tour</a> </p>";
+                            else echo "<p>N°".$row["idGrille"].": Partie en cours <a href=\"#\"  style=\"color:orange;\">En attente du tour de l'adversaire</a> </p>";
                         }
                     }
-                    else echo "<p>Partie en attente d'un joueur: <a href=\"#\"  style=\"color:orange;\">En attente</a> </p>";
+                    else echo "<p>N°".$row["idGrille"].": Partie en attente d'un joueur <a href=\"#\"  style=\"color:orange;\">En attente</a> </p>";
                     echo "<br>";
                     $cpt++;
                 }

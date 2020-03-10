@@ -28,6 +28,15 @@
             modifieTable($bd, $sql);
         }
 
+        $nbPion = nbPion($bd);
+        for ($i=0; $i < 3 ; $i++) { 
+            $sql = "INSERT Into Pion(idPion, role, direction, position) Values (".(($nbPion+1)+$i).", 0, 0, \"".($i+1).":2\")";
+            modifieTable($bd, $sql);
+
+            $sql = "INSERT Into Joue(idGrille, idPion) Values (".$_GET["grille"].", ".(($nbPion+1)+$i).")";
+            modifieTable($bd, $sql);
+        }
+
         header("Location: Compte.php");
     }
 ?>

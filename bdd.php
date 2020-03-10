@@ -84,6 +84,16 @@
         return $row["nb"];
     }
 
+    function recupTable($bd, $idGrille){
+        $tab = array();
+        $sql = "SELECT * From Pion Inner join Joue On Joue.idPion = Pion.idPion Where idGrille = ".$idGrille;
+        $result = $bd->query($sql);
+        while($row = $result->fetch(PDO::FETCH_ASSOC)){
+            $tab[$row["idPion"]] = $row;
+        }
+        return $tab;
+    }
+
     function hachage($mdp)
     {
         return hash("md5", $mdp);

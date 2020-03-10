@@ -5,6 +5,11 @@ body {
     text-align: center;
 }
 
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
+
 form {
     padding:10px;
     width:280px;

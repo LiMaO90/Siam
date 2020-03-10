@@ -3,12 +3,8 @@ include("bdd.php");
 
 if(!isset($_SESSION["id"])) header("Location: Connexion.php");
 
-$isAdmin = False;
-
 $bd = connectBD("Siam");
-if(isAdmin($bd, $_SESSION["id"])){
-    $isAdmin = True;
-}
+$isAdmin = isAdmin($bd, $_SESSION["id"]);
 
 $value = NULL;
 

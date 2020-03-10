@@ -26,9 +26,9 @@ if(isAdmin($bd, $_SESSION["id"])){
                 while($row = $listPartie->fetch(PDO::FETCH_ASSOC))
                 {
                     if($row["estPartie"] == "0")
-                        echo "<p>Partie en attente d'un joueur: <a href=\"Rejoindre.php?grille=".$row["idGrille"]."\"  style=\"color:green;\">Rejoindre</a></p>";
+                        echo "<p>N°".$row["idGrille"].": Partie en attente d'un joueur <a href=\"Rejoindre.php?grille=".$row["idGrille"]."\"  style=\"color:green;\">Rejoindre</a></p>";
                     if($row["estPartie"] == "2")
-                        echo "<p>Partie termine: <a href=\"SupprimerPartie.php?grille=".$row["idGrille"]."\" ><img src=\"ressources/croix.png\" height=\"1%\" width=\"1%\" alt=\"croix\"> </a></p>";
+                        echo "<p>N°".$row["idGrille"].": Partie termine <a href=\"SupprimerPartie.php?grille=".$row["idGrille"]."\" ><img src=\"ressources/croix.png\" height=\"1%\" width=\"1%\" alt=\"croix\"> </a></p>";
                     $cpt++;
                 }
                 if($cpt == 0) echo "<p>Il n'y a pas de partie en attente.</p>";
@@ -38,7 +38,7 @@ if(isAdmin($bd, $_SESSION["id"])){
                 $cpt = 0;
                 while($row = $listPartie->fetch(PDO::FETCH_ASSOC))
                 {
-                    echo "<p>Partie en attente d'un joueur: <a href=\"Rejoindre.php?grille=".$row["idGrille"]."\"  style=\"color:green;\">Rejoindre</a> </p>";
+                    echo "<p>N°".$row["idGrille"].": Partie en attente d'un joueur <a href=\"Rejoindre.php?grille=".$row["idGrille"]."\"  style=\"color:green;\">Rejoindre</a> </p>";
                     $cpt++;
                 }
                 if($cpt == 0) echo "<p>Il n'y a pas de partie en attente.</p>";
