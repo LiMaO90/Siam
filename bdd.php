@@ -84,14 +84,28 @@
         return $row["nb"];
     }
 
+    function prochainPion($bd, $idGrille){
+        $sql = "SELECT Pion.idPion from Pion Inner Join Joue On Joue.idPion = Pion.idPion Where idGrille = ".$idGrille." And  position = \"-1:-1\" And role In ( Select tour From Grille Where idGrille = ".$idGrille." )";
+        $result = $bd->query($sql);
+        $row = $result->fetch(PDO::FETCH_ASSOC);
+        return $row["idPion"];
+    }
+
     function recupTable($bd, $idGrille){
         $tab = array();
-        $sql = "SELECT * From Pion Inner join Joue On Joue.idPion = Pion.idPion Where idGrille = ".$idGrille;
+        $sql = "SELECT * From Pion Inner join Joue On Joue.idPion = Pion.idPion Inner join Grille On Grille.idGrille = Joue.idGrille Where Grille.idGrille = ".$idGrille;
         $result = $bd->query($sql);
         while($row = $result->fetch(PDO::FETCH_ASSOC)){
             $tab[$row["idPion"]] = $row;
         }
         return $tab;
+    }
+
+    function recupPion($bd, $idGrille, $x, $y){
+        $sql = "SELECT Pion.idPion From Pion Inner join Joue On Joue.idPion = Pion.idPion Where position = '".$x.":".$y."' And Not role = 0 And idGrille = ".$idGrille;
+        $result = $bd->query($sql);
+        $row = $result->fetch(PDO::FETCH_ASSOC);
+        return $row["idPion"];
     }
 
     function hachage($mdp)
@@ -104,5 +118,12 @@
         $output = $data;
         if (is_array($output)) $output = implode(',', $output);
         echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
+    }
+
+    function debugConsoleJS($data)
+    {
+        $output = $data;
+        if (is_array($output)) $output = implode(',', $output);
+        echo "console.log('Debug Objects: " . $output . "' );";
     }
 ?>

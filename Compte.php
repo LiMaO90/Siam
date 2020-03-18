@@ -16,7 +16,7 @@ if(isset($_POST["oldMDP"]) && isset($_POST["MDP"]) && isset($_POST["verifMDP"]))
     {
         if($_POST["MDP"] == $_POST["verifMDP"]){
             $mdp = hachage($_POST["MDP"]);
-            $requete = "UPDATE Joueur SET motDePasse = \'".$mdp."\' Where idJoueur = ".$_SESSION["id"];
+            $requete = "UPDATE Joueur SET motDePasse = \"".$mdp."\" Where idJoueur = ".$_SESSION["id"];
             debugConsole($requete);
             modifieTable($bd, $requete);
             $value = "success";
