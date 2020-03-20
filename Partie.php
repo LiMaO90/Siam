@@ -74,13 +74,21 @@
                 } ?>
                 </tr>
             <?php } ?>
-        </table>
+
         <?php if($grille["estSelectPion"] == "0"){ ?>
             <button id="placerPion" onClick="placerPion()">Ajouter un pion</button>
-            <button id="haut" onClick="ajouterPion(<?php echo $_GET["grille"]; ?>, 0)" hidden>haut</button>
-            <button id="bas" onClick="ajouterPion(<?php echo $_GET["grille"]; ?>, 2)" hidden>bas</button>
-            <button id="gauche" onClick="ajouterPion(<?php echo $_GET["grille"]; ?>, 3)" hidden>gauche</button>
-            <button id="droite" onClick="ajouterPion(<?php echo $_GET["grille"]; ?>, 1)" hidden>droite</button>
+            <div style="float:right;vertical-align:middle;padding-left: 10px;padding-right: 300px">
+                <div>
+            <button id="bas" onClick="ajouterPion(<?php echo $_GET["grille"]; ?>, 2)" hidden><img src="ressources/12.gif"></button>
+            </div>
+            <div>
+            <button id="gauche" onClick="ajouterPion(<?php echo $_GET["grille"]; ?>, 3)" hidden><img src="ressources/13.gif"></button>
+            <img src="ressources/croix.png">
+            <button id="droite" onClick="ajouterPion(<?php echo $_GET["grille"]; ?>, 1)" hidden><img src="ressources/11.gif"></button>
+            </div>
+            <button id="haut" onClick="ajouterPion(<?php echo $_GET["grille"]; ?>, 0)" hidden><img src="ressources/10.gif"></button>
+            </div>
+
         <?php } else { ?>
             <button id="avancer" onClick="avancerPion(<?php echo $_GET["grille"]; ?>)">Avancer le pion selectionné</button>
             <button id="tourner" onClick="tournerPion()">Tourner le pion selectionné</button>
@@ -89,6 +97,7 @@
             <button id="tournerDroite" onClick="tournerDroitePion(<?php echo $_GET["grille"]; ?>)" hidden>Tourner à gauche</button>
             <button id="valider" onClick="validerTourner(<?php echo $_GET["grille"]; ?>)" hidden>Valider</button>
         <?php } ?>
+        </table>
     <center>
 </body>
 </html>
@@ -216,7 +225,7 @@
     }
 
     function validerTourner(idGrille){
-        /*$.ajax({
+        /*$.ajax({https://github.com/LiMaO90/Siam.git
             url: 'tournerPion.php',
             type: 'GET',
             cache: true,
