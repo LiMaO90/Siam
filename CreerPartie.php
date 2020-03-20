@@ -8,7 +8,7 @@ $isAdmin = isAdmin($bd, $_SESSION["id"]);
 
 $value = NULL;
 
-$sql = "INSERT INTO Grille(tour, estPartie) Values (1, 0)"; // 0 false et 1 true
+$sql = "INSERT INTO Grille(tour, estPartie, estSelectPion) Values (1, 0, 0)"; // 0 false et 1 true
 if(modifieTable($bd, $sql))
 {
     $value = "success";

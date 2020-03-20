@@ -28,9 +28,11 @@
     <h1>Jouer sur la grille N°<?php echo $_GET["grille"] ?></h1>
     <center>
         <?php if($grille["estSelectPion"] == "0"){ ?>
-            <h5>Selection un pion</h5>
+            <h5>Selection d'un pion ou Ajouter un pion</h5>
+        <?php } else if(estPionCourantSurGrille($bd, $_GET["grille"])){ ?>
+            <h5>Selection d'une action</h5>
         <?php } else { ?>
-            <h5>Selection une action</h5>
+            <h5>Selection un emplacement pour poser le pion</h5>
         <?php } ?>
         <table>
             <?php for ($i=0; $i < 5 ; $i++) { ?>
@@ -44,7 +46,10 @@
                                 if($value["estSelectPion"] == "0")
                                     echo "<td><img onClick=\"selectPionOnGrille(".$j.", ".$i.", ".$_GET["grille"].")\" src=\"ressources/rocher.gif\" height=\"100%\" width=\"100%\" ></button></td>";
                                 else{
-                                    echo "<td><img onClick=\"PlacerPionOnGrille(".$j.", ".$i.", ".$_GET["grille"].")\" src=\"ressources/rocher.gif\" height=\"100%\" width=\"100%\" ></button></td>";
+                                    if(estPionCourantSurGrille($bd, $_GET["grille"]))
+                                        echo "<td><img src=\"ressources/rocher.gif\" height=\"100%\" width=\"100%\" ></button></td>";
+                                    else
+                                        echo "<td><img onClick=\"PlacerPionOnGrille(".$j.", ".$i.", ".$_GET["grille"].")\" src=\"ressources/rocher.gif\" height=\"100%\" width=\"100%\" ></button></td>";
                                 }
                             }
                             else{
@@ -52,14 +57,20 @@
                                     if($value["estSelectPion"] == "0")
                                         echo "<td style=\"border: 5px solid red;\"><img onClick=\"selectPionOnGrille(".$j.", ".$i.", ".$_GET["grille"].")\" src=\"ressources/".$value["role"]."".$value["direction"].".gif\" height=\"100%\" width=\"100%\" ></button></td>";
                                     else{
-                                        echo "<td style=\"border: 5px solid red;\"><img onClick=\"PlacerPionOnGrille(".$j.", ".$i.", ".$_GET["grille"].")\" src=\"ressources/".$value["role"]."".$value["direction"].".gif\" height=\"100%\" width=\"100%\" ></button></td>";
+                                        if(estPionCourantSurGrille($bd, $_GET["grille"]))
+                                            echo "<td style=\"border: 5px solid red;\"><img src=\"ressources/".$value["role"]."".$value["direction"].".gif\" height=\"100%\" width=\"100%\" ></button></td>";
+                                        else
+                                            echo "<td style=\"border: 5px solid red;\"><img onClick=\"PlacerPionOnGrille(".$j.", ".$i.", ".$_GET["grille"].")\" src=\"ressources/".$value["role"]."".$value["direction"].".gif\" height=\"100%\" width=\"100%\" ></button></td>";
                                     }
                                 }
                                 else{
                                     if($value["estSelectPion"] == "0")
                                         echo "<td><img onClick=\"selectPionOnGrille(".$j.", ".$i.", ".$_GET["grille"].")\" src=\"ressources/".$value["role"]."".$value["direction"].".gif\" height=\"100%\" width=\"100%\" ></button></td>";
                                     else{
-                                        echo "<td><img onClick=\"PlacerPionOnGrille(".$j.", ".$i.", ".$_GET["grille"].")\" src=\"ressources/".$value["role"]."".$value["direction"].".gif\" height=\"100%\" width=\"100%\" ></button></td>";
+                                        if(estPionCourantSurGrille($bd, $_GET["grille"]))
+                                            echo "<td><img src=\"ressources/".$value["role"]."".$value["direction"].".gif\" height=\"100%\" width=\"100%\" ></button></td>";
+                                        else
+                                            echo "<td><img onClick=\"PlacerPionOnGrille(".$j.", ".$i.", ".$_GET["grille"].")\" src=\"ressources/".$value["role"]."".$value["direction"].".gif\" height=\"100%\" width=\"100%\" ></button></td>";
                                     }
                                 }
                             }
@@ -68,48 +79,98 @@
                     if(!$isPlacer) {
                         if($value["estSelectPion"] == "0")
                             echo "<td><img onClick=\"selectPionOnGrille(".$j.", ".$i.", ".$_GET["grille"].")\" src=\"ressources/croix.png\" height=\"100%\" width=\"100%\" ></button></td>";
-                        else
-                            echo "<td><img onClick=\"PlacerPionOnGrille(".$j.", ".$i.", ".$_GET["grille"].")\" src=\"ressources/croix.png\" height=\"100%\" width=\"100%\" ></button></td>";
+                        else{
+                            if(estPionCourantSurGrille($bd, $_GET["grille"]))
+                                echo "<td><img src=\"ressources/croix.png\" height=\"100%\" width=\"100%\" ></button></td>";
+                            else
+                                echo "<td><img onClick=\"PlacerPionOnGrille(".$j.", ".$i.", ".$_GET["grille"].")\" src=\"ressources/croix.png\" height=\"100%\" width=\"100%\" ></button></td>";
+                        }
                     }
                 } ?>
                 </tr>
             <?php } ?>
 
         <?php if($grille["estSelectPion"] == "0"){ ?>
-            <button id="placerPion" onClick="placerPion()">Ajouter un pion</button>
             <div style="float:right;vertical-align:middle;padding-left: 10px;padding-right: 300px">
+                <button id="placerPion" onClick="placerPion()">Ajouter un pion</button>
                 <div>
-            <button id="bas" onClick="ajouterPion(<?php echo $_GET["grille"]; ?>, 2)" hidden><img src="ressources/12.gif"></button>
-            </div>
-            <div>
-            <button id="gauche" onClick="ajouterPion(<?php echo $_GET["grille"]; ?>, 3)" hidden><img src="ressources/13.gif"></button>
-            <img src="ressources/croix.png">
-            <button id="droite" onClick="ajouterPion(<?php echo $_GET["grille"]; ?>, 1)" hidden><img src="ressources/11.gif"></button>
-            </div>
-            <button id="haut" onClick="ajouterPion(<?php echo $_GET["grille"]; ?>, 0)" hidden><img src="ressources/10.gif"></button>
+                    <button id="haut" onClick="ajouterPion(<?php echo $_GET["grille"]; ?>, 0)" hidden><img src="ressources/<?php echo $grille["tour"]; ?>0.gif"></button>
+                </div>
+                <div>
+                    <button id="gauche" onClick="ajouterPion(<?php echo $_GET["grille"]; ?>, 3)" hidden><img src="ressources/<?php echo $grille["tour"]; ?>3.gif"></button>
+                    <img src="ressources/croix.png">
+                    <button id="droite" onClick="ajouterPion(<?php echo $_GET["grille"]; ?>, 1)" hidden><img src="ressources/<?php echo $grille["tour"]; ?>1.gif"></button>
+                </div>
+                <button id="bas" onClick="ajouterPion(<?php echo $_GET["grille"]; ?>, 2)" hidden><img src="ressources/<?php echo $grille["tour"]; ?>2.gif"></button>
             </div>
 
-        <?php } else { ?>
+        <?php } 
+        else { 
+        if(estPionCourantSurGrille($bd, $_GET["grille"])) {?>
+                    
             <button id="avancer" onClick="avancerPion(<?php echo $_GET["grille"]; ?>)">Avancer le pion selectionné</button>
-            <button id="tourner" onClick="tournerPion()">Tourner le pion selectionné</button>
+            <button id="tourner" onClick="tournerPions()">Tourner le pion selectionné</button>
             <button id="retirer" onClick="retirerPion(<?php echo $_GET["grille"]; ?>)" >Retirer le pion selectionné</button>
+            <button id="annuler" onClick="annuleSelection(<?php echo $_GET["grille"]; ?>)" >Annuler la selection</button>
+            <!--
             <button id="tournerGauche" onClick="tournerGauchePion(<?php echo $_GET["grille"]; ?>)" hidden>Tourner à gauche</button>
             <button id="tournerDroite" onClick="tournerDroitePion(<?php echo $_GET["grille"]; ?>)" hidden>Tourner à gauche</button>
             <button id="valider" onClick="validerTourner(<?php echo $_GET["grille"]; ?>)" hidden>Valider</button>
-        <?php } ?>
+            -->
+
+            <div style="float:right;vertical-align:middle;padding-left: 10px;padding-right: 300px">
+                <div>
+                    <button id="haut" onClick="tournerPion(<?php echo $_GET["grille"]; ?>, 0)" hidden><img src="ressources/<?php echo $grille["tour"]; ?>0.gif"></button>
+                </div>
+                <div>
+                    <button id="gauche" onClick="tournerPion(<?php echo $_GET["grille"]; ?>, 3)" hidden><img src="ressources/<?php echo $grille["tour"]; ?>3.gif"></button>
+                    <img src="ressources/croix.png">
+                    <button id="droite" onClick="tournerPion(<?php echo $_GET["grille"]; ?>, 1)" hidden><img src="ressources/<?php echo $grille["tour"]; ?>1.gif"></button>
+                </div>
+                <button id="bas" onClick="tournerPion(<?php echo $_GET["grille"]; ?>, 2)" hidden><img src="ressources/<?php echo $grille["tour"]; ?>2.gif"></button>
+            </div>
+
+            <!--
+
+            <div style="float:right;vertical-align:middle;padding-left: 10px;padding-right: 300px">
+                <div>
+                    <button id="avancer" onClick="avancerPion(<?php echo $_GET["grille"]; ?>)">Avancer le pion selectionné</button>
+                    <button id="tournerGauche" onClick="tournerGauchePion(<?php echo $_GET["grille"]; ?>)" hidden>Tourner à gauche</button>
+                </div>
+                <br>
+                <div>
+                    <button id="tourner" onClick="tournerPion()">Tourner le pion selectionné</button>
+                    <button id="tournerDroite" onClick="tournerDroitePion(<?php echo $_GET["grille"]; ?>)" hidden>Tourner à gauche</button>
+                </div>
+                <br>
+                <div>
+                    <button id="retirer" onClick="retirerPion(<?php echo $_GET["grille"]; ?>)" >Retirer le pion selectionné</button>
+                    <button id="valider" onClick="validerTourner(<?php echo $_GET["grille"]; ?>)" hidden>Valider</button>
+                </div>
+            </div>
+
+            -->
+        <?php }} ?>
         </table>
     <center>
 </body>
 </html>
 
 <script>
-    function tournerPion(){
+    function tournerPions(){
         $("#avancer").hide();
         $("#tourner").hide();
         $("#retirer").hide();
-        $("#tournerGauche").show();
+        $("#annuler").hide();
+
+        $("#haut").show();
+        $("#bas").show();
+        $("#gauche").show();
+        $("#droite").show();
+
+        /*$("#tournerGauche").show();
         $("#tournerDroite").show();
-        $("#valider").show();
+        $("#valider").show();*/
     }
 
     function placerPion(){
@@ -155,6 +216,20 @@
         });
     }
 
+    function annuleSelection(idGrille){
+        console.log("annuler Select");
+        $.ajax({
+            url: 'annuleSelect.php',
+            type: 'GET',
+            cache: true,
+            data: 'idGrille=' + idGrille,
+            success: function(reponse) {
+                console.log(reponse);
+                document.location.reload(true);
+            }
+        });
+    }
+
     function retirerPion(idGrille){
         console.log("retirer");
         $.ajax({
@@ -180,14 +255,34 @@
                 console.log(reponse);
                 if(reponse == "Error")
                     alert("Pas de selection de Pion !!");
+                else if(reponse == "Error Placement")
+                    alert("Placer votre pion sur un emplacement libre !!");
                 else
                     finTour(idGrille);
             }
         });
     }
 
+    function tournerPion(idGrille, direction){
+        console.log("tourner vers " + direction);
+        $.ajax({
+            url: 'tournerPion.php',
+            type: 'GET',
+            cache: true,
+            data: 'idGrille=' + idGrille + "&direction=" + direction,
+            success: function(reponse) {
+                console.log(reponse);
+                if(reponse == "Error")
+                    alert("Aucun pion n'est selectionné !!");
+                else
+                    finTour(idGrille);
+            }
+        });
+    }
+
+    /*
     function tournerGauchePion(idGrille){
-        /*$.ajax({
+        $.ajax({
             url: 'tournerPion.php',
             type: 'GET',
             cache: true,
@@ -201,7 +296,7 @@
                 else
                     document.location.reload(true);
             }
-        });*/
+        });
         console.log("tourner a gauche");
     }
 
@@ -220,12 +315,12 @@
                 else
                     document.location.reload(true);
             }
-        });*/
+        });
         console.log("tourner a droite");
     }
 
     function validerTourner(idGrille){
-        /*$.ajax({https://github.com/LiMaO90/Siam.git
+        $.ajax({
             url: 'tournerPion.php',
             type: 'GET',
             cache: true,
@@ -239,27 +334,26 @@
                 else
                     document.location.reload(true);
             }
-        });*/
+        });
         console.log("valider Tour");
     }
+    */
 
     function avancerPion(idGrille){
-        /*$.ajax({
+        console.log("avancer");
+        $.ajax({
             url: 'avancerPion.php',
             type: 'GET',
             cache: true,
             data: 'idGrille=' + idGrille,
             success: function(reponse) {
                 console.log(reponse);
-                if(reponse == "Error")
-                    alert("Il faut cliquer sur un pion !!");
-                else if(reponse == "Error Joueur")
-                    alert("Jouer avec vos Pions");
+                if(reponse == "Fin")
+                    alert("Fin Partie !!");
                 else
-                    document.location.reload(true);
+                    finTour(idGrille);
             }
-        });*/
-        console.log("avancer");
+        });
     }
 
     function finTour(idGrille){
@@ -271,10 +365,7 @@
             data: 'idGrille=' + idGrille,
             success: function(reponse) {
                 console.log(reponse);
-                if(reponse == "Error")
-                    alert("Il faut cliquer sur un pion !!");
-                else
-                    document.location.reload(true);
+                document.location.reload(true);
             }
         });
     }
