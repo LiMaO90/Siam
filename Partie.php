@@ -21,6 +21,8 @@
     $nbPionNonJouer = $result->fetch(PDO::FETCH_ASSOC)["nb"];
 
     if($grille["tour"] != $tour["numJoueur"]) header("Location: Connexion.php");
+
+    if($grille["estPartie"] == 2) header("Location: Connexion.php");
 ?>
 
 <!DOCTYPE html>
@@ -295,65 +297,6 @@
         });
     }
 
-    /*
-    function tournerGauchePion(idGrille){
-        $.ajax({
-            url: 'tournerPion.php',
-            type: 'GET',
-            cache: true,
-            data: 'idGrille=' + idGrille + "&tourner=1",
-            success: function(reponse) {
-                console.log(reponse);
-                if(reponse == "Error")
-                    alert("Il faut cliquer sur un pion !!");
-                else if(reponse == "Error Joueur")
-                    alert("Jouer avec vos Pions");
-                else
-                    document.location.reload(true);
-            }
-        });
-        console.log("tourner a gauche");
-    }
-
-    function tournerDroitePion(idGrille){
-        /*$.ajax({
-            url: 'tournerPion.php',
-            type: 'GET',
-            cache: true,
-            data: 'idGrille=' + idGrille + "&tourner=2",
-            success: function(reponse) {
-                console.log(reponse);
-                if(reponse == "Error")
-                    alert("Il faut cliquer sur un pion !!");
-                else if(reponse == "Error Joueur")
-                    alert("Jouer avec vos Pions");
-                else
-                    document.location.reload(true);
-            }
-        });
-        console.log("tourner a droite");
-    }
-
-    function validerTourner(idGrille){
-        $.ajax({
-            url: 'tournerPion.php',
-            type: 'GET',
-            cache: true,
-            data: 'idGrille=' + idGrille + "&tourner=2",
-            success: function(reponse) {
-                console.log(reponse);
-                if(reponse == "Error")
-                    alert("Il faut cliquer sur un pion !!");
-                else if(reponse == "Error Joueur")
-                    alert("Jouer avec vos Pions");
-                else
-                    document.location.reload(true);
-            }
-        });
-        console.log("valider Tour");
-    }
-    */
-
     function avancerPion(idGrille){
         console.log("avancer");
         $.ajax({
@@ -363,10 +306,14 @@
             data: 'idGrille=' + idGrille,
             success: function(reponse) {
                 console.log(reponse);
-                if(reponse == "Fin")
-                    alert("Fin Partie !!");
-                else
+                if(reponse == "Non"){
+                    alert("il y a eu un probléme !!");
+                    document.location.reload(true);
+                }
+                else if(reponse == "Deplacer")
                     finTour(idGrille);
+                else
+                    finPartie(reponse);
             }
         });
     }
@@ -381,6 +328,20 @@
             success: function(reponse) {
                 console.log(reponse);
                 document.location.reload(true);
+            }
+        });
+    }
+
+    function finPartie(vainqueur){
+        console.log("Fin Partie");
+        $.ajax({
+            url: 'finPartie.php',
+            type: 'GET',
+            cache: true,
+            data: 'vainqueur=' + vainqueur,
+            success: function(reponse) {
+                console.log(reponse);
+                //document.location.reload(true);
             }
         });
     }

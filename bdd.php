@@ -135,6 +135,13 @@
         $bd->exec($sql);
     }
 
+    function joueurGagnant($bd, $idGrille){
+        $sql = "SELECT Joueur.* From Joueur Inner Join Participe On Joueur.idJoueur = Participe.idJoueur Inner Join Grille On Participe.idGrille = Grille.idGrille Where Grille.idGrille = ".$idGrille." AND numJoueur = joueurGagnant";
+        $result = selectTable($bd, $sql);
+        $joueur = $result->fetch(PDO::FETCH_ASSOC);
+        return $joueur;
+    }
+
     function hachage($mdp)
     {
         return hash("md5", $mdp);
