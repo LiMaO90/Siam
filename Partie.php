@@ -22,6 +22,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <?php include("header.php"); ?>
+
 <body>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <?php if($isAdmin) include("MenuHtmlAdmin.php"); else include("MenuHtmlUtilisateur.php"); ?>
@@ -92,9 +93,9 @@
 
         <?php if($grille["estSelectPion"] == "0"){ ?>
             <div style="float:right;vertical-align:middle;padding-left: 10px;padding-right: 300px">
-                <button id="placerPion" onClick="placerPion()">Ajouter un pion</button>
+                <button class="button" id="placerPion" onClick="placerPion()">Ajouter un pion</button>
                 <div>
-                    <button id="haut" onClick="ajouterPion(<?php echo $_GET["grille"]; ?>, 0)" hidden><img src="ressources/<?php echo $grille["tour"]; ?>0.gif"></button>
+                    <button  id="haut" onClick="ajouterPion(<?php echo $_GET["grille"]; ?>, 0)" hidden><img src="ressources/<?php echo $grille["tour"]; ?>0.gif"></button>
                 </div>
                 <div>
                     <button id="gauche" onClick="ajouterPion(<?php echo $_GET["grille"]; ?>, 3)" hidden><img src="ressources/<?php echo $grille["tour"]; ?>3.gif"></button>
@@ -104,20 +105,20 @@
                 <button id="bas" onClick="ajouterPion(<?php echo $_GET["grille"]; ?>, 2)" hidden><img src="ressources/<?php echo $grille["tour"]; ?>2.gif"></button>
             </div>
 
-        <?php } 
-        else { 
+        <?php }
+        else {
         if(estPionCourantSurGrille($bd, $_GET["grille"])) {?>
-                    
+<!--
             <button id="avancer" onClick="avancerPion(<?php echo $_GET["grille"]; ?>)">Avancer le pion selectionné</button>
             <button id="tourner" onClick="tournerPions()">Tourner le pion selectionné</button>
             <button id="retirer" onClick="retirerPion(<?php echo $_GET["grille"]; ?>)" >Retirer le pion selectionné</button>
             <button id="annuler" onClick="annuleSelection(<?php echo $_GET["grille"]; ?>)" >Annuler la selection</button>
-            <!--
+
             <button id="tournerGauche" onClick="tournerGauchePion(<?php echo $_GET["grille"]; ?>)" hidden>Tourner à gauche</button>
             <button id="tournerDroite" onClick="tournerDroitePion(<?php echo $_GET["grille"]; ?>)" hidden>Tourner à gauche</button>
             <button id="valider" onClick="validerTourner(<?php echo $_GET["grille"]; ?>)" hidden>Valider</button>
-            -->
 
+-->
             <div style="float:right;vertical-align:middle;padding-left: 10px;padding-right: 300px">
                 <div>
                     <button id="haut" onClick="tournerPion(<?php echo $_GET["grille"]; ?>, 0)" hidden><img src="ressources/<?php echo $grille["tour"]; ?>0.gif"></button>
@@ -130,33 +131,43 @@
                 <button id="bas" onClick="tournerPion(<?php echo $_GET["grille"]; ?>, 2)" hidden><img src="ressources/<?php echo $grille["tour"]; ?>2.gif"></button>
             </div>
 
-            <!--
+
 
             <div style="float:right;vertical-align:middle;padding-left: 10px;padding-right: 300px">
                 <div>
-                    <button id="avancer" onClick="avancerPion(<?php echo $_GET["grille"]; ?>)">Avancer le pion selectionné</button>
-                    <button id="tournerGauche" onClick="tournerGauchePion(<?php echo $_GET["grille"]; ?>)" hidden>Tourner à gauche</button>
+                    <button class="button" id="avancer" onClick="avancerPion(<?php echo $_GET["grille"]; ?>)">Avancer le pion selectionné</button>
+                    <button  id="tournerGauche" onClick="tournerGauchePion(<?php echo $_GET["grille"]; ?>)" hidden>Tourner à gauche</button>
                 </div>
                 <br>
                 <div>
-                    <button id="tourner" onClick="tournerPion()">Tourner le pion selectionné</button>
-                    <button id="tournerDroite" onClick="tournerDroitePion(<?php echo $_GET["grille"]; ?>)" hidden>Tourner à gauche</button>
+                    <button class="button" id="tourner" onClick="tournerPions()">Tourner le pion selectionné</button>
+                    <button  id="tournerDroite" onClick="tournerDroitePion(<?php echo $_GET["grille"]; ?>)" hidden>Tourner à gauche</button>
                 </div>
                 <br>
                 <div>
-                    <button id="retirer" onClick="retirerPion(<?php echo $_GET["grille"]; ?>)" >Retirer le pion selectionné</button>
-                    <button id="valider" onClick="validerTourner(<?php echo $_GET["grille"]; ?>)" hidden>Valider</button>
+                    <button class="button" id="retirer" onClick="retirerPion(<?php echo $_GET["grille"]; ?>)" >Retirer le pion selectionné</button>
+                </div>
+                <br>
+                <div>
+                    <button class="button" id="annuler" onClick="annuleSelection(<?php echo $_GET["grille"]; ?>)" >Annuler la selection</button>
                 </div>
             </div>
 
-            -->
         <?php }} ?>
         </table>
+
+        <br>
+        <?php for ($i=0; $i<5;$i++){ ?>
+        <img src="ressources/<?php echo $grille["tour"]; ?>0.gif">
+        <?php } ?>
+
     <center>
+
 </body>
 </html>
 
 <script>
+
     function tournerPions(){
         $("#avancer").hide();
         $("#tourner").hide();
