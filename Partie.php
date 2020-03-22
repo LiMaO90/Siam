@@ -12,9 +12,13 @@
     $result = selectTable($bd, $sql);
     $grille = $result->fetch(PDO::FETCH_ASSOC);
 
-    $sql = "SELECT numJoueur From Participe Where idJoueur = ".$_SESSION["id"]." And idGrille = ".$_GET["grille"];
+    $sql = "SELECT numJoueur From Participe Where idJoueur = ".$_SESSION["id"]." AND idGrille = ".$_GET["grille"];
     $result = selectTable($bd, $sql);
     $tour = $result->fetch(PDO::FETCH_ASSOC);
+
+    $sql = "SELECT Count(Pion.idPion) As nb From Pion Inner Join Joue On Joue.idPion = Pion.idPion Where idGrille = ".$_GET["grille"]." And position = \"-1:-1\" AND Role = ( Select numJoueur From Participe Where idGrille = ".$_GET["grille"]." And idJoueur = ".$_SESSION["id"]." )";
+    $result = selectTable($bd, $sql);
+    $nbPionNonJouer = $result->fetch(PDO::FETCH_ASSOC)["nb"];
 
     if($grille["tour"] != $tour["numJoueur"]) header("Location: Connexion.php");
 ?>
@@ -157,7 +161,7 @@
         </table>
 
         <br>
-        <?php for ($i=0; $i<5;$i++){ ?>
+        <?php for ($i=0; $i<$nbPionNonJouer ;$i++){ ?>
         <img src="ressources/<?php echo $grille["tour"]; ?>0.gif">
         <?php } ?>
 
