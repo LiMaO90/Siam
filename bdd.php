@@ -252,7 +252,7 @@
                     if(isset($value["idPion"]) && !$estTrouveVide){
                         if($cpt == 0){
                             if($value["role"] == 0) $estFin = True;
-                            else deplacerPionInBDD($bd, $value["idPion"], "-1:-1");
+                            deplacerPionInBDD($bd, $value["idPion"], "-1:-1");
                         }
                         else{
                             $y = $cpt-1;
@@ -277,7 +277,7 @@
                     if(isset($value["idPion"]) && !$estTrouveVide){
                         if($cpt == 0){
                             if($value["role"] == 0) $estFin = True;
-                            else deplacerPionInBDD($bd, $value["idPion"], "-1:-1");
+                            deplacerPionInBDD($bd, $value["idPion"], "-1:-1");
                         }
                         else{
                             $x = $cpt-1;
@@ -296,7 +296,7 @@
                     if(isset($value["idPion"]) && !$estTrouveVide){
                         if($key == 4){
                             if($value["role"] == 0) $estFin = True;
-                            else deplacerPionInBDD($bd, $value["idPion"], "-1:-1");
+                            deplacerPionInBDD($bd, $value["idPion"], "-1:-1");
                         }
                         else{
                             $y = $key+1;
@@ -314,7 +314,7 @@
                     if(isset($value["idPion"]) && !$estTrouveVide){
                         if($key == 4){
                             if($value["role"] == 0) $estFin = True;
-                            else deplacerPionInBDD($bd, $value["idPion"], "-1:-1");
+                            deplacerPionInBDD($bd, $value["idPion"], "-1:-1");
                         }
                         else{
                             $x = $key+1;

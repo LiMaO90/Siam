@@ -61,7 +61,7 @@ if(isset($_POST["oldMDP"]) && isset($_POST["MDP"]) && isset($_POST["verifMDP"]))
                 $cpt = 0;
                 while($row = $listPartie->fetch(PDO::FETCH_ASSOC))
                 {
-                    //$idJoueur = NULL;
+                    $idJoueur = NULL;
                     $gagnant = joueurGagnant($bd, $row["idGrille"]);
                     if(isset($gagnant["idJoueur"])) $idJoueur = $gagnant["idJoueur"];
                     

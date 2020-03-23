@@ -20,7 +20,7 @@
     $result = selectTable($bd, $sql);
     $nbPionNonJouer = $result->fetch(PDO::FETCH_ASSOC)["nb"];
 
-    if($grille["tour"] != $tour["numJoueur"]) header("Location: Connexion.php");
+    if($grille["tour"] != $tour["numJoueur"] && !$isAdmin) header("Location: Connexion.php");
 
     if($grille["estPartie"] == 2) header("Location: Connexion.php");
 ?>
@@ -32,15 +32,41 @@
 <body>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <?php if($isAdmin) include("MenuHtmlAdmin.php"); else include("MenuHtmlUtilisateur.php"); ?>
+
+    <?php if($isAdmin && $grille["tour"] != $tour["numJoueur"]){ ?>
+
+    <h1>Visionage de la grille N°<?php echo $_GET["grille"] ?></h1>
+    <center>
+        <table>
+            <?php for ($i=0; $i < 5 ; $i++) { ?>
+                <tr>
+                <?php for ($j=0; $j < 5 ; $j++) {
+                    $isPlacer = false;
+                    foreach($tab as $value){
+                        if($j.":".$i == $value["position"]){
+                            $isPlacer = true;
+                            if($value["role"] == "0") echo "<td><img src=\"ressources/rocher.gif\" height=\"100%\" width=\"100%\" ></button></td>";
+                            else{
+                                if($value["idPion"] == $value["idPionJouer"]) echo "<td style=\"border: 5px solid red;\"><img src=\"ressources/".$value["role"]."".$value["direction"].".gif\" height=\"100%\" width=\"100%\" ></button></td>";
+                                else echo "<td><img src=\"ressources/".$value["role"]."".$value["direction"].".gif\" height=\"100%\" width=\"100%\" ></button></td>";
+                            }
+                        }
+                    }
+                    if(!$isPlacer) echo "<td><img src=\"ressources/croix.png\" height=\"100%\" width=\"100%\" ></button></td>";
+                } ?>
+                </tr>
+            <?php } ?>
+        </table>
+    <center>
+
+    <?php } else { ?>
+
     <h1>Jouer sur la grille N°<?php echo $_GET["grille"] ?></h1>
     <center>
-        <?php if($grille["estSelectPion"] == "0"){ ?>
-            <h5>Selection d'un pion ou Ajouter un pion</h5>
-        <?php } else if(estPionCourantSurGrille($bd, $_GET["grille"])){ ?>
-            <h5>Selection d'une action</h5>
-        <?php } else { ?>
-            <h5>Selection un emplacement pour poser le pion</h5>
-        <?php } ?>
+        <?php if($grille["estSelectPion"] == "0") echo "<h5>Selection d'un pion ou Ajouter un pion</h5>";
+        else if(estPionCourantSurGrille($bd, $_GET["grille"])) echo "<h5>Selection d'une action</h5>";
+        else echo "<h5>Selection un emplacement pour poser le pion</h5>";
+        ?>
         <table>
             <?php for ($i=0; $i < 5 ; $i++) { ?>
                 <tr>
@@ -114,17 +140,6 @@
         <?php }
         else {
         if(estPionCourantSurGrille($bd, $_GET["grille"])) {?>
-<!--
-            <button id="avancer" onClick="avancerPion(<?php echo $_GET["grille"]; ?>)">Avancer le pion selectionné</button>
-            <button id="tourner" onClick="tournerPions()">Tourner le pion selectionné</button>
-            <button id="retirer" onClick="retirerPion(<?php echo $_GET["grille"]; ?>)" >Retirer le pion selectionné</button>
-            <button id="annuler" onClick="annuleSelection(<?php echo $_GET["grille"]; ?>)" >Annuler la selection</button>
-
-            <button id="tournerGauche" onClick="tournerGauchePion(<?php echo $_GET["grille"]; ?>)" hidden>Tourner à gauche</button>
-            <button id="tournerDroite" onClick="tournerDroitePion(<?php echo $_GET["grille"]; ?>)" hidden>Tourner à gauche</button>
-            <button id="valider" onClick="validerTourner(<?php echo $_GET["grille"]; ?>)" hidden>Valider</button>
-
--->
             <div style="float:right;vertical-align:middle;padding-left: 10px;padding-right: 300px">
                 <div>
                     <button id="haut" onClick="tournerPion(<?php echo $_GET["grille"]; ?>, 0)" hidden><img src="ressources/<?php echo $grille["tour"]; ?>0.gif"></button>
@@ -168,6 +183,8 @@
         <?php } ?>
 
     <center>
+
+    <?php } ?>
 
 </body>
 </html>
@@ -307,7 +324,7 @@
             success: function(reponse) {
                 console.log(reponse);
                 if(reponse == "Non"){
-                    alert("il y a eu un probléme !!");
+                    alert("Ton pion ne peut pas poser !!");
                     document.location.reload(true);
                 }
                 else if(reponse == "Deplacer")
@@ -341,7 +358,7 @@
             data: 'vainqueur=' + vainqueur,
             success: function(reponse) {
                 console.log(reponse);
-                //document.location.reload(true);
+                document.location.reload(true);
             }
         });
     }

@@ -42,9 +42,9 @@
             if($direction == 0 || $direction == 3){
                 $fin = $idGrille.":";
 
-                $cpt = 5;
+                $cpt = 0;
                 $estFin = false;
-                while ($cpt >= 0 && !$estFin) {
+                while ($cpt < 5 && !$estFin) {
                     if(isset($tabReduc[$cpt]["idPion"])){
                         $value = $tabReduc[$cpt];
 
@@ -55,7 +55,7 @@
                             $fin = $fin.$value["role"];
                         }
                     }
-                    $cpt = $cpt - 1;
+                    $cpt = $cpt + 1;
                 }
 
                 echo $fin;
@@ -63,22 +63,20 @@
             else{
                 $fin = $idGrille.":";
 
-                $cpt = 0;
+                $cpt = 5;
                 $estFin = false;
-                while ($cpt < 5 && !$estFin) {
+                while ($cpt >= 0 && !$estFin) {
                     if(isset($tabReducY[$cpt])){
                         $value = $tabReducY[$cpt];
 
                         $directionCourant = $value["direction"];
-
-                        var_dump($value);
 
                         if($directionCourant == $direction){
                             $estFin = true;
                             $fin = $fin.$value["role"];
                         }
                     }
-                    $cpt = $cpt + 1;
+                    $cpt = $cpt - 1;
                 }
 
                 echo $fin;
