@@ -7,7 +7,6 @@ $value = NULL;
 if(isset($_POST["identifiant"]) && isset($_POST["MDP"]) && isset($_POST["verifMDP"])){
   $bd = connectBD("Siam");
   if($_POST["MDP"] == $_POST["verifMDP"]){
-    $bd = connectBD("Siam");
     if($bd != NULL){
       $mdp = hash("md5", $_POST["MDP"]);
       $requete = 'INSERT Into Joueur(identifiant, motDePasse, isAdmin) Values("'.$_POST["identifiant"].'", "'.$mdp.'", "False")';
@@ -27,7 +26,7 @@ if(isset($_POST["identifiant"]) && isset($_POST["MDP"]) && isset($_POST["verifMD
     <p style="color:green;"><?php if($value == "success") echo "Le compte a été créé !!"; ?></p>
     <h1>Création d'un compte</h1>
     <center>
-      <form action="inscription.php" method="post">
+      <form action="Inscription.php" method="post">
         <fieldset>
           <legend>Création d'un compte</legend>
           <label>identfiant: </label><input type="text" name="identifiant"><br>

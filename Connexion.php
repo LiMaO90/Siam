@@ -7,8 +7,8 @@ $error = NULL;
 $bd = connectBD("Siam");
 
 function passage($bd, $id){
-  if(isAdmin($bd, $id)) header("Location: MenuUtilisateur.php");
-  else header("Location: MenuAdmin.php");
+  if(isAdmin($bd, $id)) header("Location: GestionMenu/MenuUtilisateur.php");
+  else header("Location: GestionMenu/MenuAdmin.php");
 }
 
 function testConnexion($bd, $identifiant, $mdp){

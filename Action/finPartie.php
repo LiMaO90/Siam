@@ -1,8 +1,8 @@
 <?php
-    include("bdd.php");
+    include("../bdd.php");
 
     if(isset($_GET["vainqueur"])){
-        $bd = connectBD("Siam");
+        $bd = connectBD("../Siam");
         $vainqueur = explode(":", $_GET["vainqueur"]);
         $idGrille = $vainqueur[0];
         $roleId = $vainqueur[1];

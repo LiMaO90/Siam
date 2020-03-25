@@ -16,7 +16,7 @@ if(isAdmin($bd, $_SESSION["id"])){
 <html lang="fr">
     <?php include("header.php"); ?>
 <body>
-    <?php if($isAdmin) include("MenuHtmlAdmin.php"); else include("MenuHtmlUtilisateur.php"); ?>
+    <?php if($isAdmin) include("GestionMenu/MenuHtmlAdmin.php"); else include("GestionMenu/MenuHtmlUtilisateur.php"); ?>
     <h1>Liste partie</h1>
     <div>
         <?php

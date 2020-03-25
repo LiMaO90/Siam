@@ -1,8 +1,8 @@
 <?php
-    include("bdd.php");
+    include("../bdd.php");
 
     if(isset($_GET["x"]) && isset($_GET["y"]) && isset($_GET["idGrille"])){
-        $bd = connectBD("Siam");
+        $bd = connectBD("../Siam");
         $x = $_GET["x"];
         $y = $_GET["y"];
         $idGrille = $_GET["idGrille"];

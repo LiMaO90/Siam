@@ -31,7 +31,7 @@
 
 <body>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-    <?php if($isAdmin) include("MenuHtmlAdmin.php"); else include("MenuHtmlUtilisateur.php"); ?>
+    <?php if($isAdmin) include("GestionMenu/MenuHtmlAdmin.php"); else include("GestionMenu/MenuHtmlUtilisateur.php"); ?>
 
     <?php if($isAdmin && $grille["tour"] != $tour["numJoueur"]){ ?>
 
@@ -45,10 +45,10 @@
                     foreach($tab as $value){
                         if($j.":".$i == $value["position"]){
                             $isPlacer = true;
-                            if($value["role"] == "0") echo "<td><img src=\"ressources/rocher.gif\" height=\"100%\" width=\"100%\" ></button></td>";
+                            if($value["role"] == "0") echo "<td><img src=\" ressources/rocher.gif\" height=\"100%\" width=\"100%\" ></button></td>";
                             else{
-                                if($value["idPion"] == $value["idPionJouer"]) echo "<td style=\"border: 5px solid red;\"><img src=\"ressources/".$value["role"]."".$value["direction"].".gif\" height=\"100%\" width=\"100%\" ></button></td>";
-                                else echo "<td><img src=\"ressources/".$value["role"]."".$value["direction"].".gif\" height=\"100%\" width=\"100%\" ></button></td>";
+                                if($value["idPion"] == $value["idPionJouer"]) echo "<td style=\"border: 5px solid red;\"><img src=\" ressources/".$value["role"]."".$value["direction"].".gif\" height=\"100%\" width=\"100%\" ></button></td>";
+                                else echo "<td><img src=\" ressources/".$value["role"]."".$value["direction"].".gif\" height=\"100%\" width=\"100%\" ></button></td>";
                             }
                         }
                     }
@@ -217,7 +217,7 @@
 
     function selectPionOnGrille(x, y, idGrille){
         $.ajax({
-            url: 'selectPion.php',
+            url: 'Action/selectPion.php',
             type: 'GET',
             cache: true,
             data: 'x='+ x + '&y=' + y + '&idGrille=' + idGrille,
@@ -236,7 +236,7 @@
     function ajouterPion(idGrille, direction){
         console.log("ajouter pion");
         $.ajax({
-            url: 'ajouterPion.php',
+            url: 'Action/ajouterPion.php',
             type: 'GET',
             cache: true,
             data: 'idGrille=' + idGrille + "&direction=" + direction,
@@ -253,12 +253,12 @@
     function annuleSelection(idGrille){
         console.log("annuler Select");
         $.ajax({
-            url: 'annuleSelect.php',
+            url: 'vAction/annuleSelect.php',
             type: 'GET',
             cache: true,
             data: 'idGrille=' + idGrille,
             success: function(reponse) {
-                console.log(reponse);
+                console.log(reponse + " test");
                 document.location.reload(true);
             }
         });
@@ -267,7 +267,7 @@
     function retirerPion(idGrille){
         console.log("retirer");
         $.ajax({
-            url: 'retirerPion.php',
+            url: 'Action/retirerPion.php',
             type: 'GET',
             cache: true,
             data: 'idGrille=' + idGrille,
@@ -281,7 +281,7 @@
     function PlacerPionOnGrille(x, y, idGrille){
         console.log("placer on " + x + ", " + y);
         $.ajax({
-            url: 'placerPion.php',
+            url: 'Action/placerPion.php',
             type: 'GET',
             cache: true,
             data: 'x='+ x + '&y=' + y + '&idGrille=' + idGrille,
@@ -300,7 +300,7 @@
     function tournerPion(idGrille, direction){
         console.log("tourner vers " + direction);
         $.ajax({
-            url: 'tournerPion.php',
+            url: 'Action/tournerPion.php',
             type: 'GET',
             cache: true,
             data: 'idGrille=' + idGrille + "&direction=" + direction,
@@ -317,7 +317,7 @@
     function avancerPion(idGrille){
         console.log("avancer");
         $.ajax({
-            url: 'avancerPion.php',
+            url: 'Action/avancerPion.php',
             type: 'GET',
             cache: true,
             data: 'idGrille=' + idGrille,
@@ -338,7 +338,7 @@
     function finTour(idGrille){
         console.log("Fin tour");
         $.ajax({
-            url: 'finTour.php',
+            url: 'Action/finTour.php',
             type: 'GET',
             cache: true,
             data: 'idGrille=' + idGrille,
@@ -352,7 +352,7 @@
     function finPartie(vainqueur){
         console.log("Fin Partie");
         $.ajax({
-            url: 'finPartie.php',
+            url: 'Action/finPartie.php',
             type: 'GET',
             cache: true,
             data: 'vainqueur=' + vainqueur,

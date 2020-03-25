@@ -25,7 +25,7 @@ else $value = "error";
 <html lang="fr">
     <?php include("header.php"); ?>
 <body>
-    <?php if($isAdmin) include("MenuHtmlAdmin.php"); else include("MenuHtmlUtilisateur.php"); ?>
+    <?php if($isAdmin) include("GestionMenu/MenuHtmlAdmin.php"); else include("GestionMenu/MenuHtmlUtilisateur.php"); ?>
     <h1>Création de partie</h1>
     <?php  
         if($value == "success") echo "<p style=\"color:green;\">La partie a été créé !!</p>"; 

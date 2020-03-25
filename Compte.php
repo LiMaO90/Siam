@@ -24,7 +24,6 @@ if(isset($_POST["oldMDP"]) && isset($_POST["MDP"]) && isset($_POST["verifMDP"]))
         else $value = "pass";
     }
     else $value = "oldPass";
-
 }
 
 ?>
@@ -33,7 +32,7 @@ if(isset($_POST["oldMDP"]) && isset($_POST["MDP"]) && isset($_POST["verifMDP"]))
 <html lang="fr">
     <?php include("header.php"); ?>
 <body>
-    <?php if($isAdmin) include("MenuHtmlAdmin.php"); else include("MenuHtmlUtilisateur.php"); ?>
+    <?php if($isAdmin) include("GestionMenu/MenuHtmlAdmin.php"); else include("GestionMenu/MenuHtmlUtilisateur.php"); ?>
     <h1>Mon compte</h1>
     <center>
         <?php  
