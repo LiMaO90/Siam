@@ -9,8 +9,8 @@
 ![Image BBD](ressources/MLD.png)
 
 ## Les choix techniques
-- Utilisation de ajax pour faire une action dans un partie
-- Utilsation de javascript pour une affichage pandant la partie
+- Utilisation de ajax pour faire une action lors d'une partie
+- Utilsation de javascript pour une affichage dynamique lors d'une partie
 - Utilisation de PHP pour accéder a la BDD
 
 ## L'architecture choisi
