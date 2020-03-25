@@ -253,7 +253,7 @@
     function annuleSelection(idGrille){
         console.log("annuler Select");
         $.ajax({
-            url: 'vAction/annuleSelect.php',
+            url: 'Action/annuleSelect.php',
             type: 'GET',
             cache: true,
             data: 'idGrille=' + idGrille,
