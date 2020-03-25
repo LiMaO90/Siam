@@ -67,7 +67,7 @@
         else if(estPionCourantSurGrille($bd, $_GET["grille"])) echo "<h5>Selection d'une action</h5>";
         else echo "<h5>Selection un emplacement pour poser le pion</h5>";
         ?>
-        <table>
+        <table style="float:center">
             <?php for ($i=0; $i < 5 ; $i++) { ?>
                 <tr>
                 <?php for ($j=0; $j < 5 ; $j++) {
@@ -154,7 +154,7 @@
 
 
 
-            <div style="float:right;vertical-align:middle;padding-left: 10px;padding-right: 300px">
+            <div style="float:right;">
                 <div>
                     <button class="button" id="avancer" onClick="avancerPion(<?php echo $_GET["grille"]; ?>)">Avancer le pion selectionné</button>
                     <button  id="tournerGauche" onClick="tournerGauchePion(<?php echo $_GET["grille"]; ?>)" hidden>Tourner à gauche</button>
